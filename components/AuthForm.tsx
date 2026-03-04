@@ -37,7 +37,8 @@ const AuthForm = ({ type }: {type: FormType}) => {
     })
 
     //Define submit handler
-    function onSubmit(values: z.infer<typeof formSchema>){
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    function onSubmit(_values: z.infer<typeof formSchema>){
         try{
             if(type === "sign-up"){
                 toast.success("Account successfully created! Please sign in.")
