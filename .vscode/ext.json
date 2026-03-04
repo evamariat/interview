@@ -1,0 +1,7 @@
+{
+  "disabled": [
+    "jzz.gui-player",
+    "live-server"
+  ],
+  "autoReload": true
+}
