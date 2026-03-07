@@ -30,6 +30,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+.env.local
 .process.env
 
 # vercel
@@ -43,3 +44,7 @@ next-env.d.ts
 .env
 .env.local
 node_modules/
+.env
+.env.local
+.env.*
+!.env.example
