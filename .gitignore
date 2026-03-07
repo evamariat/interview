@@ -40,3 +40,6 @@ yarn-error.log*
 next-env.d.ts
 .process.env
 .process.env
+.env
+.env.local
+node_modules/
