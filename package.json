@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "engines": {
-    "node": "v25.6.1"
+    "node": "v24.x"
   },
   "dependencies": {
     "@ai-sdk/google": "^1.2.22",

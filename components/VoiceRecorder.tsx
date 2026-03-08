@@ -28,42 +28,31 @@ export default function VoiceRecorder() {
     }
   }, []);
 
-  const stopRecording = useCallback(() => {
-    if (mediaRecorderRef.current?.state === 'recording') {
-      mediaRecorderRef.current.stop();
-    }
-    setIsRecording(false);
-  }, []);
+const stopRecording = () => {
+  setIsRecording(false);
+  handleStop();
+};
 
-  const handleStop = async () => {
-    try {
-      const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-      const formData = new FormData();
-      formData.append('audio', audioBlob, 'recording.webm');
-
-      const res = await fetch('/api/transcribe', { 
-        method: 'POST', 
-        body: formData 
-      });
-      
-      if (!res.ok) {
-        throw new Error('Transcription failed');
-      }
-      
-      const { text } = await res.json();
-      setTranscript(text);
-    } catch (error) {
-      console.error('Error processing recording:', error);
-      setTranscript('Transcription failed. Please try again.');
-    } finally {
-      // Clean up stream and chunks
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach(track => track.stop());
-        streamRef.current = null;
-      }
-      audioChunksRef.current = [];
+const handleStop = async () => {
+  try {
+    const recorder = mediaRecorderRef.current;
+    if (!recorder || recorder.state === 'inactive') {
+      console.log('Recorder inactive, skipping stop');
+      return;
     }
-  };
+
+    // Stop recording (this triggers onstop)
+    recorder.stop();
+    
+    // Clean up stream after short delay
+    setTimeout(() => {
+      recorder.stream.getTracks().forEach(track => track.stop());
+    }, 100);
+
+  } catch (error) {
+    console.error('Stop recording failed:', error);
+  }
+};
 
   return (
     <div className="max-w-md mx-auto p-6 space-y-6 bg-white rounded-2xl shadow-xl border border-gray-100">
